@@ -14,19 +14,41 @@ class Card:
 
 
 class Player:
-    def __init__(self, name, deck):
+    def __init__(self, name, deck):  # Ensure arguments are accepted
         self.name = name
         self.health = 100
-        self.deck = deck
+        self.deck = deck  # This initializes the deck passed as an argument
         self.hand = []
+        self.discard_pile = []  # Enables recycling used cards
 
     def draw_card(self):
         if self.deck:
             card = self.deck.pop(0)
             self.hand.append(card)
             print(f"{self.name} drew card: {card}")
+        elif self.discard_pile:
+            print(f"\n{self.name}'s deck is empty! Recycling discarded cards...")
+            random.shuffle(self.discard_pile)
+            self.deck = self.discard_pile[:]
+            self.discard_pile.clear()
+            self.draw_card()
         else:
-            print(f"{self.name} has no more cards to draw.")
+            print(f"{self.name} has no more cards to draw!")
+
+
+    def draw_card(self):
+        if self.deck:
+            card = self.deck.pop(0)
+            self.hand.append(card)
+            print(f"{self.name} drew card: {card}")
+        elif self.discard_pile:
+            print(f"\n{self.name}'s deck is empty! Recycling discarded cards...")
+            random.shuffle(self.discard_pile)
+            self.deck = self.discard_pile[:]
+            self.discard_pile.clear()
+            self.draw_card()
+        else:
+            print(f"{self.name} has no more cards to draw!")
 
     def discard_card(self):
         if self.hand:
